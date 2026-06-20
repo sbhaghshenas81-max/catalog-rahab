@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رهاب شیراز | کاتالوگ و سیستم هوشمند پیش‌فاکتور</title>
+    <link rel="icon" type="image/png" href="%D8%A7%D9%86%D8%AF.png">
+    <link rel="apple-touch-icon" href="%D8%A7%D9%86%D8%AF.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/nav-vazirmatn/v1.0.0/vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #f1f5f9;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0d9488;
+            border-radius: 6px;
+        }
+        @media print {
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            body.print-invoice #print-invoice-page {
+                display: block !important;
+            }
+            body.print-invoice #print-catalog-page {
+                display: none !important;
+            }
+            body.print-catalog #print-catalog-page {
+                display: block !important;
+            }
+            body.print-catalog #print-invoice-page {
+                display: none !important;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+            .page-break-avoid {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rahab: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                            dark: '#0e2b30',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-slate-800 antialiased">
+
+    <div class="min-h-screen flex flex-col justify-between no-print">
+        
+        <header class="bg-gradient-to-br from-rahab-dark to-rahab-900 text-white shadow-xl relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(20,184,166,0.18),transparent_50%)]"></div>
+            
+            <div class="container mx-auto px-6 py-6 flex flex-wrap justify-between items-center relative z-10 border-b border-white/10">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 bg-white/10 rounded-2xl p-2.5 flex items-center justify-center backdrop-blur-sm border border-white/20" id="header-logo-container">
+                        <img src="%D8%A7%D9%86%D8%AF.png" class="w-full h-full object-contain" alt="لوگو رهاب" onerror="handleHeaderLogoError(this)">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-2xl font-black tracking-wider text-teal-300">RAHAB SHIRAZ</span>
+                        </div>
+                        <span class="text-xs text-teal-100/80 tracking-widest font-bold block">Dripp Irrigation | صنایع آبیاری رهاب شیراز</span>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-4 mt-4 sm:mt-0">
+                    <button onclick="triggerPrintAll()" class="bg-teal-500 hover:bg-teal-600 text-white px-5 py-3 rounded-xl text-sm font-bold transition-all shadow-md flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.75 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.75 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                        </svg>
+                        خروجی PDF کاتالوگ کلی
+                    </button>
+                    <button onclick="triggerPrintInvoice()" class="bg-white text-rahab-900 hover:bg-teal-50 px-5 py-3 rounded-xl text-sm font-bold transition-all shadow-md flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.897L21 8.54m-14.28 5.357L3 16.25m3.72-2.353L18 21.03M3 16.25l7.5-3 7.5 3m-15 0v-5.25L12 3m0 0l7.5 8m-7.5-8v18" />
+                        </svg>
+                        چاپ پیش‌فاکتور رسمی
+                    </button>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-6 py-10 text-center relative z-10">
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">سامانه استعلام قیمت هوشمند و کاتالوگ محصولات</h2>
+                <p class="text-teal-200 text-sm sm:text-base max-w-3xl mx-auto leading-relaxed">
+                    با تغییر در تعداد هر محصول، پیش‌فاکتور اختصاصی خود را بسازید، درصد تخفیف ویژه همکار را اعمال نموده و نسخه چاپی دریافت نمایید.
+                </p>
+            </div>
+        </header>
+
+        <main class="container mx-auto max-w-[1480px] px-6 py-8 flex-grow">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <div class="lg:col-span-8 space-y-6">
+                    
+                    <div class="bg-white rounded-2xl p-5 shadow-md border border-slate-200/80 space-y-5">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="relative flex-grow">
+                                <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z" />
+                                    </svg>
+                                </span>
+                                <input type="text" id="search-input" oninput="filterProducts()" placeholder="جستجو نام محصول، سایز یا ردیف کالا..." class="w-full pl-4 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rahab-500 text-sm font-semibold">
+                            </div>
+                            
+                            <div class="md:w-56">
+                                <select id="size-filter" onchange="filterProducts()" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rahab-500 text-sm font-bold">
+                                    <option value="">همه سایزها</option>
+                                    <option value="12">سایز ۱۲ (3/8")</option>
+                                    <option value="16">سایز ۱۶ (5/8")</option>
+                                    <option value="20">سایز ۲۰ (1/2")</option>
+                                    <option value="25">سایز ۲۵ (3/4")</option>
+                                    <option value="32">سایز ۳۲ (1")</option>
+                                    <option value="40">سایز ۴۰ (1 1/4")</option>
+                                    <option value="50">سایز ۵۰ (1 1/2")</option>
+                                    <option value="63">سایز ۶۳ (2")</option>
+                                    <option value="75">سایز ۷۵ (2 1/2")</option>
+                                    <option value="90">سایز ۹۰ (3")</option>
+                                    <option value="110">سایز ۱۱۰ (4")</option>
+                                    <option value="125">سایز ۱۲۵ (5")</option>
+                                    <option value="140">سایز ۱۴۰ (5 1/2")</option>
+                                    <option value="150">سایز ۱۵۰ (6")</option>
+                                    <option value="160">سایز ۱۶۰ (6 1/2")</option>
+                                    <option value="200">سایز ۲۰۰ (8")</option>
+                                    <option value="250">سایز ۲۵۰ (10")</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2 border-t border-slate-100 pt-4 overflow-x-auto pb-1 scrollbar-none">
+                            <button onclick="setCategory('all')" id="tab-all" class="cat-tab shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-rahab-600 text-white shadow-sm">همه کالاها</button>
+                            <button onclick="setCategory('pipes')" id="tab-pipes" class="cat-tab shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">لوله‌ها و شلنگ‌ها</button>
+                            <button onclick="setCategory('compression')" id="tab-compression" class="cat-tab shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">اتصالات پیچی</button>
+                            <button onclick="setCategory('saddles')" id="tab-saddles" class="cat-tab shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">کمربندها و بست‌ها</button>
+                            <button onclick="setCategory('valves')" id="tab-valves" class="cat-tab shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">شیرآلات و سوپاپ‌ها</button>
+                            <button onclick="setCategory('drip')" id="tab-drip" class="cat-tab shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">اتصالات قطره‌ای و تیپ</button>
+                            <button onclick="setCategory('threaded')" id="tab-threaded" class="cat-tab shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">قطعات دنده‌ای و رابط‌ها</button>
+                            <button onclick="setCategory('tools')" id="tab-tools" class="cat-tab shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">ابزارآلات و آچارها</button>
+                        </div>
+                    </div>
+
+                    <div id="products-container" class="space-y-5"></div>
+                </div>
+
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-200/80 sticky top-6 space-y-5">
+                        <div class="border-b border-slate-100 pb-3 flex justify-between items-center">
+                            <h3 class="text-lg font-extrabold text-slate-900 flex items-center gap-2">پیش‌فاکتور استعلام</h3>
+                            <span id="cart-count" class="bg-rahab-100 text-rahab-800 text-xs font-bold px-3 py-1 rounded-full">۰ آیتم</span>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-slate-500">نام خریدار / پروژه:</label>
+                            <input type="text" id="buyer-name-input" oninput="updateBuyerName()" placeholder="نام خریدار را وارد کنید..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rahab-500 font-semibold">
+                        </div>
+
+                        <div id="cart-items" class="space-y-2 max-h-80 overflow-y-auto pr-1 text-xs"></div>
+
+                        <div class="space-y-4 pt-4 border-t border-slate-100">
+                            <div>
+                                <div class="flex justify-between text-xs font-bold mb-1">
+                                    <span class="text-slate-500">تخفیف ویژه همکار:</span>
+                                    <span id="discount-display" class="text-rahab-600 font-extrabold text-sm">۰٪</span>
+                                </div>
+                                <input type="range" id="discount-input" min="0" max="4" value="0" step="1" oninput="updatePricing()" class="w-full accent-rahab-600 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                            </div>
+
+                            <div class="bg-slate-50 rounded-xl p-4 space-y-2.5 text-xs font-semibold">
+                                <div class="flex justify-between text-slate-600">
+                                    <span>مجموع مبلغ خام:</span>
+                                    <span id="raw-total">۰ ریال</span>
+                                </div>
+                                <div class="flex justify-between text-rose-600">
+                                    <span>میزان تخفیف:</span>
+                                    <span id="discount-amount">۰ ریال</span>
+                                </div>
+                                <div class="flex justify-between text-slate-900 border-t border-slate-200/60 pt-2.5 font-bold text-base">
+                                    <span class="text-rahab-800">مبلغ قابل پرداخت:</span>
+                                    <span id="net-total" class="text-rahab-800 font-extrabold">۰ ریال</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="triggerPrintInvoice()" class="w-full bg-rahab-600 hover:bg-rahab-700 text-white font-extrabold py-3.5 rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2">
+                            صدور و پرینت فاکتور نهایی
+                        </button>
+                        
+                        <div class="border-t border-slate-100 pt-3">
+                            <button onclick="triggerPrintAll()" class="w-full bg-slate-100 hover:bg-slate-200 text-rahab-900 font-bold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.75 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.75 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+                                دریافت PDF لیست کل کاتالوگ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-slate-900 text-slate-400 py-10 mt-12 border-t border-slate-800">
+            <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white/5 rounded-xl p-1.5">
+                            <img src="%D8%A7%D9%86%D8%AF.png" class="w-full h-full object-contain" alt="لوگو رهاب">
+                        </div>
+                        <span class="text-white font-bold text-lg">صنایع آبیاری رهاب شیراز</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-slate-400">تولید کننده پیشگام در عرضه ملزومات باکیفیت و استاندارد آبیاری قطره‌ای و تحت فشار در سراسر کشور.</p>
+                </div>
+                <div class="space-y-2 text-xs">
+                    <h4 class="text-white font-bold mb-3 text-sm">ضمانت و استانداردهای رهاب شیراز</h4>
+                    <p>• کلیه شیرآلات فلزی و پلیمری دارای گارانتی تعویض بی قید و شرط می‌باشند.</p>
+                    <p>• مقاومت بالا در برابر پوسیدگی، تابش شدید آفتاب (Anti-UV) و ضربه شدید مکانیکی.</p>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="text-white font-bold text-sm">ارتباط با واحد فروش و پشتیبانی</h4>
+                    <div class="text-xs space-y-1">
+                        <p class="text-teal-300 font-bold">تلفن تماس: ۰۹۱۷۲۴۲۴۰۴۹</p>
+                        <p>آدرس: پل امام علی بسمت خیابان شهناز کوچه سمت چپ</p>
+                        <p>ساعات کاری: ۸:۰۰ الی ۱۷:۰۰ روزهای کاری</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-xs mt-8 pt-6 border-t border-slate-800 text-slate-500">کلیه حقوق مادی و معنوی متعلق به برند رهاب شیراز (RAHAB SHIRAZ) می‌باشد.</div>
+        </footer>
+    </div>
+
+    <div id="print-invoice-page" class="hidden print:block w-full text-slate-900 p-2 font-sans text-[11px] leading-normal">
+        <div class="border-[1.5px] border-slate-800 p-4 rounded-xl relative overflow-hidden">
+            
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40 z-0" id="invoice-watermark-container">
+                <img src="%D8%A7%D9%86%D8%AF.png" class="w-[420px] h-[420px] object-contain" alt="لوگو پس‌زمینه" onerror="handleWatermarkError(this)">
+            </div>
+            
+            <div class="relative z-10 space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-300 pb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-12 h-12" id="print-logo-container">
+                            <img src="%D8%A7%D9%86%D8%AF.png" class="w-full h-full object-contain" alt="لوگو اصلی" onerror="handlePrintLogoError(this)">
+                        </div>
+                        <div>
+                            <h1 class="text-base font-black text-slate-900">صنایع آبیاری رهاب شیراز</h1>
+                            <p class="text-[9px] text-slate-500 font-semibold">تامین و توزیع تجهیزات تخصصی شبکه و سیستم‌های آبیاری قطره‌ای و بارانی</p>
+                        </div>
+                    </div>
+                    <div><h2 class="text-lg font-black text-slate-800 border-2 border-slate-800 px-4 py-1 rounded-md bg-slate-50">پیش‌فاکتور رسمی فروش</h2></div>
+                    <div class="text-left text-[10px] space-y-0.5">
+                        <p>شماره فاکتور: <span id="print-serial-no" class="font-bold"></span></p>
+                        <p>تاریخ صدور: <span id="print-invoice-date" class="font-bold"></span></p>
+                        <p>اعتبار: <span class="font-bold">۷ روز کاری</span></p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-[10px]">
+                    <div class="border border-slate-300 rounded-lg p-2 space-y-0.5">
+                        <p class="font-bold text-slate-800 border-b pb-0.5 mb-1">مشخصات تامین‌کننده:</p>
+                        <p>صنایع آبیاری رهاب شیراز | آدرس: پل امام علی بسمت خیابان شهناز کوچه سمت چپ</p>
+                        <p>تلفن تماس: ۰۹۱۷۲۴۲۴۰۴۹</p>
+                    </div>
+                    <div class="border border-slate-300 rounded-lg p-2 space-y-0.5">
+                        <p class="font-bold text-slate-800 border-b pb-0.5 mb-1">مشخصات متقاضی/خریدار:</p>
+                        <p>خریدار / پروژه: <span id="print-buyer-name" class="font-bold">همکار ارجمند / خریدار محترم</span></p>
+                        <p>محل تحویل کالا: درب انبار مرکزی کارخانه (شیراز)</p>
+                    </div>
+                </div>
+                <div class="border border-slate-300 rounded-lg overflow-hidden bg-white/95">
+                    <table class="w-full text-right text-[10px] border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-800 border-b border-slate-300 font-bold">
+                                <th class="px-2 py-1.5 text-center w-6">ردیف</th>
+                                <th class="px-2 py-1.5">شرح کالا و اتصالات آبیاری</th>
+                                <th class="px-2 py-1.5 text-center">تعداد (عدد)</th>
+                                <th class="px-2 py-1.5 text-left">قیمت واحد (ریال)</th>
+                                <th class="px-2 py-1.5 text-left">قیمت کل (ریال)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="print-invoice-table-body"></tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-start pt-1">
+                    <div class="w-[55%] text-[8px] text-slate-500 leading-relaxed border p-2 rounded-lg bg-slate-50/50">
+                        <p class="font-bold text-slate-700">توضیحات و تعهدات:</p>
+                        <p>۱. قیمت‌های فوق بدون احتساب هزینه باربری و تحویل درب کارخانه می‌باشد.</p>
+                        <p>۲. کلیه اتصالات پیچی و کمربندها مشمول استانداردهای ملی و تاییدیه معاونت آب و خاک جهاد کشاورزی می‌باشند.</p>
+                    </div>
+                    <div class="w-[40%] border border-slate-300 rounded-lg overflow-hidden text-[10px] bg-white">
+                        <div class="flex justify-between px-2 py-1 border-b"><span class="text-slate-500">جمع کل فاکتور خام:</span><span id="print-raw-total" class="font-semibold"></span></div>
+                        <div class="flex justify-between px-2 py-1 border-b text-rose-600 bg-rose-50/20"><span>تخفیف ویژه همکار (<span id="print-discount-rate">۰</span>٪):</span><span id="print-discount-amount" class="font-bold"></span></div>
+                        <div class="flex justify-between px-2 py-1 bg-slate-100 font-black text-xs"><span>مبلغ قابل پرداخت:</span><span id="print-net-total"></span></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 pt-6 text-center text-slate-700">
+                    <div><p class="font-semibold text-xs">Mهر و تایید خریدار</p></div>
+                    <div><p class="font-semibold text-xs text-slate-900">مهر و امضای صنایع آبیاری رهاب شیراز</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="print-catalog-page" class="hidden print:block w-full text-slate-900 p-2 font-sans text-[11px] leading-normal relative">
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40 z-0" id="catalog-watermark-container">
+            <img src="%D8%A7%D9%86%D8%AF.png" class="w-[450px] h-[450px] object-contain fixed top-[30%]" alt="لوگو پس‌زمینه کاتالوگ" onerror="handleCatalogWatermarkError(this)">
+        </div>
+        <div class="relative z-10 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-400 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-12 h-12" id="catalog-header-logo-container">
+                        <img src="%D8%A7%D9%86%D8%AF.png" class="w-full h-full object-contain" alt="لوگو رهاب" onerror="handleCatalogHeaderLogoError(this)">
+                    </div>
+                    <div>
+                        <h1 class="text-base font-black text-slate-900">صنایع آبیاری رهاب شیراز</h1>
+                        <p class="text-[9px] text-slate-500 font-semibold">کاتالوگ جامع و لیست قیمت مرجع انواع ملزومات آبیاری قطره‌ای و تحت فشار</p>
+                    </div>
+                </div>
+                <div class="text-left text-[10px] space-y-0.5">
+                    <p class="font-bold">تاریخ کاتالوگ: خرداد ۱۴۰۵</p>
+                    <p>نسخه چاپی رسمی مرجع</p>
+                </div>
+            </div>
+            <div id="print-all-products-container" class="space-y-6"></div>
+            <div class="border-t border-slate-300 pt-3 flex justify-between items-center text-[9px] text-slate-500 page-break-avoid">
+                <p>صنایع آبیاری رهاب شیراز | آدرس: پل امام علی بسمت خیابان شهناز کوچه سمت چپ | تلفن تماس: ۰۹۱۷۲۴۲۴۰۴۹</p>
+                <p>صفحه کاتالوگ چاپی رسمی</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const d = [
+            // --- اتصالات پیچی آبسان ---
+            {id:'ab1',category:'compression',group:'رابط ساده پیچی آبسان',size:'20 * 20',carton:160,price:860000},
+            {id:'ab2',category:'compression',group:'رابط ساده پیچی آبسان',size:'25 * 25',carton:129,price:1180000},
+            {id:'ab3',category:'compression',group:'رابط ساده پیچی آبسان',size:'32 * 32',carton:84,price:1800000},
+            {id:'ab4',category:'compression',group:'رابط ساده پیچی آبسان',size:'40 * 40',carton:36,price:3080000},
+            {id:'ab5',category:'compression',group:'رابط ساده پیچی آبسان',size:'50 * 50',carton:26,price:4620000},
+            {id:'ab6',category:'compression',group:'رابط ساده پیچی آبسان',size:'63 * 63',carton:16,price:6860000},
+            {id:'ab7',category:'compression',group:'رابط ساده پیچی آبسان',size:'75 * 75',carton:10,price:12580000},
+            {id:'ab8',category:'compression',group:'رابط ساده پیچی آبسان',size:'90 * 90',carton:15,price:17330000},
+            {id:'ab9',category:'compression',group:'رابط ساده پیچی آبسان',size:'110 * 110',carton:10,price:28860000},
+            {id:'ab10',category:'compression',group:'رابط تبدیل پیچی آبسان',size:'25 * 20',carton:130,price:1040000},
+            {id:'ab11',category:'compression',group:'رابط تبدیل پیچی آبسان',size:'32 * 25',carton:84,price:1500000},
+            {id:'ab12',category:'compression',group:'رابط تبدیل پیچی آبسان',size:'63 * 50',carton:20,price:5710000},
+            {id:'ab13',category:'compression',group:'زانو مساوی پیچی آبسان',size:'20 * 20',carton:128,price:920000},
+            {id:'ab14',category:'compression',group:'زانو مساوی پیچی آبسان',size:'25 * 25',carton:112,price:1250000},
+            {id:'ab15',category:'compression',group:'زانو مساوی پیچی آبسان',size:'32 * 32',carton:72,price:2030000},
+            {id:'ab16',category:'compression',group:'زانو مساوی پیچی آبسان',size:'63 * 63',carton:12,price:7750000},
+            {id:'ab17',category:'compression',group:'زانو ماده پیچی آبسان',size:'20 * 1/2"',carton:200,price:680000},
+            {id:'ab18',category:'compression',group:'زانو ماده پیچی آبسان',size:'25 * 3/4"',carton:160,price:900000},
+            {id:'ab19',category:'compression',group:'زانو ماده پیچی آبسان',size:'32 * 1"',carton:84,price:1490000},
+            {id:'ab20',category:'compression',group:'سه راه مساوی پیچی آبسان',size:'20 * 20 * 20',carton:100,price:1340000},
+            {id:'ab21',category:'compression',group:'سه راه مساوی پیچی آبسان',size:'25 * 25 * 25',carton:70,price:1840000},
+            {id:'ab22',category:'compression',group:'سه راه مساوی پیچی آبسان',size:'32 * 32 * 32',carton:48,price:2900000},
+            {id:'ab23',category:'compression',group:'سه راه مساوی پیچی آبسان',size:'63 * 63 * 63',carton:10,price:10510000},
+            {id:'ab24',category:'compression',group:'اتصال نر پیچی آبسان',size:'20 * 1/2"',carton:220,price:550000},
+            {id:'ab25',category:'compression',group:'اتصال نر پیچی آبسان',size:'25 * 3/4"',carton:185,price:720000},
+            {id:'ab26',category:'compression',group:'اتصال نر پیچی آبسان',size:'32 * 1"',carton:120,price:1150000},
+            
+            // --- لوله‌ها و شلنگ‌های آبیاری: آسایش آذربایجان ---
+            {id:'pipe_aa1',category:'pipes',group:'لوله بارانی آسافلکس (۰/۸ بار) آسایش آذربایجان',size:'سایز ۱ اینچ (1")',carton:100,price:108000},
+            {id:'pipe_aa2',category:'pipes',group:'لوله بارانی آسافلکس (۰/۸ بار) آسایش آذربایجان',size:'سایز ۱/۵ اینچ (1.5")',carton:100,price:125000},
+            {id:'pipe_aa3',category:'pipes',group:'لوله بارانی آسافلکس (۰/۸ بار) آسایش آذربایجان',size:'سایز ۳ اینچ (3")',carton:50,price:143000},
+            {id:'pipe_aa4',category:'pipes',group:'لوله بارانی آسافلکس (۰/۸ بار) آسایش آذربایجان',size:'سایز ۲/۵ اینچ (2.5")',carton:50,price:261000},
+            {id:'pipe_aa5',category:'pipes',group:'لوله نخ‌دار پنج لایه ECO (۱/۲ بار) آسایش آذربایجان',size:'سایز ۲ اینچ (سایز ۵۰)',carton:100,price:257000},
+            {id:'pipe_aa6',category:'pipes',group:'لوله نخ‌دار پنج لایه ECO (۱/۲ بار) آسایش آذربایجان',size:'سایز ۲/۵ اینچ (سایز ۶۳)',carton:100,price:331000},
+            {id:'pipe_aa7',category:'pipes',group:'لوله نخ‌دار پنج لایه ECO (۱/۲ بار) آسایش آذربایجان',size:'سایز ۳ اینچ (سایز ۷۵)',carton:100,price:387000},
+            {id:'pipe_aa8',category:'pipes',group:'لوله نخ‌دار پنج لایه ECO (۱/۲ بار) آسایش آذربایجان',size:'سایز ۳/۵ اینچ (سایز ۹۰)',carton:100,price:485000},
+            {id:'pipe_aa9',category:'pipes',group:'لوله نخ‌دار پنج لایه ECO (۱/۲ بار) آسایش آذربایجان',size:'سایز ۴ اینچ (سایز ۱۰۰)',carton:50,price:549000},
+            {id:'pipe_aa10',category:'pipes',group:'لوله نخ‌دار پنج لایه ECO (۱/۲ بار) آسایش آذربایجان',size:'سایز ۴/۵ اینچ (سایز ۱۱۰)',carton:50,price:614000},
+            {id:'pipe_aa11',category:'pipes',group:'لوله نخ‌دار پنج لایه ECO (۱/۲ بار) آسایش آذربایجان',size:'سایز ۵ اینچ (سایز ۱۲۵)',carton:50,price:745000},
+            {id:'pipe_aa12',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۲ اینچ (سایز ۵۰)',carton:100,price:290000},
+            {id:'pipe_aa13',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۲/۵ اینچ (سایز ۶۳)',carton:100,price:368000},
+            {id:'pipe_aa14',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۳ اینچ (سایز ۷۵)',carton:100,price:428000},
+            {id:'pipe_aa15',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۳/۵ اینچ (سایز ۹۰)',carton:100,price:514000},
+            {id:'pipe_aa16',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۴ اینچ (سایز ۱۰۰)',carton:50,price:610000},
+            {id:'pipe_aa17',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۴/۵ اینچ (سایز ۱۱۰)',carton:50,price:665000},
+            {id:'pipe_aa18',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۵ اینچ (سایز ۱۲۵)',carton:50,price:805000},
+            {id:'pipe_aa19',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۵/۵ اینچ (سایز ۱۴۰)',carton:50,price:900000},
+            {id:'pipe_aa20',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۶ اینچ (سایز ۱۵۰)',carton:50,price:1050000},
+            {id:'pipe_aa21',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۶/۵ اینچ (سایز ۱۶۰)',carton:50,price:1220000},
+            {id:'pipe_aa22',category:'pipes',group:'لوله نخ‌دار پنج لایه (۱/۵ بار) آسایش آذربایجان',size:'سایز ۸ اینچ (سایز ۲۰۰)',carton:50,price:1555000},
+            {id:'sp_p1',category:'pipes',group:'سرشلنگی بارانی آهنی باران سرپرسی',size:'سایز ۲۰ (1")',carton:200,price:103000},
+            {id:'sp_p2',category:'pipes',group:'سرشلنگی بارانی آهنی باران سرپرسی',size:'سایز ۶۳ (2")',carton:100,price:158000},
+            {id:'sp_p3',category:'pipes',group:'سرشلنگی بارانی آهنی باران سرپرسی',size:'سایز ۷۵ (2.5")',carton:70,price:209000},
+            {id:'sp_p4',category:'pipes',group:'سرشلنگی بارانی آهنی باران سرپرسی',size:'سایز ۹۰ (3")',carton:50,price:281000},
+            {id:'sp_p5',category:'pipes',group:'سرشلنگی بارانی آهنی باران سرپرسی',size:'سایز ۱۱۰ (4")',carton:30,price:380000},
+            
+            // --- انواع کمربندها و بست‌های تخصصی آبسان صنعت و سرپرسی ---
+            {id:'sd101',category:'saddles',group:'کمربند یکطرفه آبسان (۲ پیچ)',size:'20 * 1/2"',carton:300,price:550000},
+            {id:'sd102',category:'saddles',group:'کمربند یکطرفه آبسان (۲ پیچ)',size:'25 * 1/2"',carton:200,price:590000},
+            {id:'sd103',category:'saddles',group:'کمربند یکطرفه آبسان (۲ پیچ)',size:'32 * 1/2"',carton:130,price:1190000},
+            {id:'sd104',category:'saddles',group:'کمربند یکطرفه آبسان (۴ پیچ)',size:'63 * 1"',carton:84,price:2980000},
+            {id:'sd105',category:'saddles',group:'کمربند یکطرفه آبسان (۴ پیچ)',size:'90 * 2"',carton:40,price:4270000},
+            {id:'sd106',category:'saddles',group:'کمربند یکطرفه آبسان (۶ پیچ)',size:'160 * 2"',carton:12,price:10850000},
+            {id:'sd201',category:'saddles',group:'کمربند دوطرفه انشعاب آبسان',size:'32 * 1/2" (۲ پیچ)',carton:100,price:1680000},
+            {id:'sd202',category:'saddles',group:'کمربند دوطرفه انشعاب آبسان',size:'63 * 1" (۴ پیچ)',carton:10,price:3680000},
+            {id:'sd203',category:'saddles',group:'کمربند دوطرفه انشعاب آبسان',size:'110 * 2" (۴ پیچ)',carton:15,price:7360000},
+            {id:'sd301',category:'saddles',group:'کمربند ناف برنجی سنگین آبسان',size:'32 * 1/2"',carton:112,price:2780000},
+            {id:'sd302',category:'saddles',group:'کمربند ناف برنجی سنگین آبسان',size:'50 * 1"',carton:66,price:6920000},
+            {id:'sd303',category:'saddles',group:'کمربند ناف برنجی سنگین آبسان',size:'110 * 2"',carton:24,price:7120000},
+            {id:'sp_b1',category:'saddles',group:'بست هندلی ضخیم سرپرسی',size:'سایز ۵۰ (1 1/2")',carton:300,price:108000},
+            {id:'sp_b2',category:'saddles',group:'بست هندلی ضخیم سرپرسی',size:'سایز ۶۳ (2")',carton:200,price:110000},
+            {id:'sp_b3',category:'saddles',group:'بست هندلی ضخیم سرپرسی',size:'سایز ۷۵ کوچک (2 1/2")',carton:200,price:109000},
+            {id:'sp_b4',category:'saddles',group:'بست هندلی ضخیم سرپرسی',size:'سایز ۷۵ بزرگ (2 1/2")',carton:200,price:122000},
+            {id:'sp_b5',category:'saddles',group:'بست هندلی ضخیم سرپرسی',size:'سایز ۹۰ (3")',carton:150,price:126000},
+            {id:'sp_b6',category:'saddles',group:'بست هندلی ضخیم سرپرسی',size:'سایز ۱۱۰ (4")',carton:100,price:140000},
+            
+            // --- شیرآلات تفکیکی پارس خاور ---
+            {id:'pk_v1',category:'valves',group:'شیر دوسر دنده داخل فوق مقاوم پارس خاور',size:'سایز ۶۳ (2" * 2")',carton:15,price:7600000},
+            {id:'pk_v3',category:'valves',group:'شیر دوسر دنده داخل فوق مقاوم پارس خاور',size:'سایز ۲۰ (1/2")',carton:100,price:2630000},
+            {id:'pk_v4',category:'valves',group:'شیر دوسر دنده داخل فوق مقاوم پارس خاور',size:'سایز ۲۵ (3/4")',carton:75,price:3350000},
+            {id:'pk_v5',category:'valves',group:'شیر دوسر دنده داخل فوق مقاوم پارس خاور',size:'سایز ۳۲ (1")',carton:50,price:3750000},
+            {id:'pk_v6',category:'valves',group:'شیر دوسر دنده داخل فوق مقاوم پارس خاور',size:'سایز ۵۰ (1 1/2")',carton:20,price:6760000},
+            {id:'pk_v7',category:'valves',group:'شیر دوسر دنده داخل فوق مقاوم پارس خاور',size:'سایز ۹۰ (3")',carton:5,price:31110000},
+            {id:'pk_v8',category:'valves',group:'شیر دوسر دنده داخل فوق مقاوم پارس خاور',size:'سایز ۱۱۰ (4")',carton:2,price:42570000},
+            {id:'pk_r1',category:'valves',group:'شیر توپی دوسر رابط پلی‌اتیلن پارس خاور',size:'سایز ۲۰ (20 * 20)',carton:50,price:3750000},
+            {id:'pk_r2',category:'valves',group:'شیر توپی دوسر رابط پلی‌اتیلن پارس خاور',size:'سایز ۲۵ (25 * 25)',carton:40,price:4760000},
+            {id:'pk_r3',category:'valves',group:'شیر توپی دوسر رابط پلی‌اتیلن پارس خاور',size:'سایز ۳۲ (32 * 32)',carton:30,price:5750000},
+            {id:'pk_r4',category:'valves',group:'شیر توپی دوسر رابط پلی‌اتیلن پارس خاور',size:'سایز ۵۰ (50 * 50)',carton:15,price:13890000},
+            {id:'pk_r5',category:'valves',group:'شیر توپی دوسر رابط پلی‌اتیلن پارس خاور',size:'سایز ۶۳ (63 * 63)',carton:10,price:17210000},
+            {id:'pk_r6',category:'valves',group:'شیر توپی دوسر رابط پلی‌اتیلن پارس خاور',size:'سایز ۹۰ (90 * 90)',carton:4,price:49320000},
+            {id:'pk_r7',category:'valves',group:'شیر توپی دوسر رابط پلی‌اتیلن پارس خاور',size:'سایز ۱۱۰ (110 * 110)',carton:3,price:79460000},
+            
+            // --- سوپاپ‌های سنگین چاه و رودخانه سرپرسی ---
+            {id:'sp_v7',category:'valves',group:'سوپاپ چدنی سنگین سرپرسی',size:'سایز ۶۳ (2")',carton:15,price:986000},
+            {id:'sp_v8',category:'valves',group:'سوپاپ چدنی سنگین سرپرسی',size:'سایز ۹۰ (3")',carton:10,price:1457000},
+            {id:'sp_v9',category:'valves',group:'سوپاپ چدنی سنگین سرپرسی',size:'سایز ۱۱۰ (4")',carton:7,price:2100000},
+            {id:'sp_v12',category:'valves',group:'سوپاپ پلیمری چاه و رودخانه سرپرسی',size:'سایز ۳۲ (1")',carton:200,price:188000},
+            {id:'sp_v13',category:'valves',group:'سوپاپ پلیمری چاه و رودخانه سرپرسی',size:'سایز ۴۰ (1 1/4")',carton:150,price:217000},
+            {id:'sp_v14',category:'valves',group:'سوپاپ پلیمری چاه و رودخانه سرپرسی',size:'سایز ۵۰ (1 1/2")',carton:140,price:228000},
+            {id:'sp_v15',category:'valves',group:'سوپاپ پلیمری چاه و رودخانه سرپرسی',size:'سایز ۶۳ (2")',carton:50,price:360000},
+            {id:'sp_v16',category:'valves',group:'سوپاپ پلیمری چاه و رودخانه سرپرسی',size:'سایز ۷۵ (2 1/2")',carton:35,price:435000},
+            {id:'sp_v17',category:'valves',group:'سوپاپ پلیمری چاه و رودخانه سرپرسی',size:'سایز ۹۰ (3")',carton:35,price:446000},
+            
+            // --- بهاران قطره: شیرآلات بین خط و انشعاب ---
+            {id:'v_bq1',category:'valves',group:'شیر بین خط تنظیمی بهاران قطره',size:'سایز ۱۶',carton:500,price:162000},
+            {id:'v_bq2',category:'valves',group:'شیر بین خط تنظیمی بهاران قطره',size:'سایز ۲۰',carton:500,price:169000},
+            {id:'v_bq3',category:'valves',group:'شیر چهار حالته تیپ استپدار بهاران قطره',size:'تیپ به لی فلت حلزونی',carton:300,price:280000},
+            
+            // --- بهاران قطره: واشرها، سه شاخه و دو شاخه‌ها ---
+            {id:'ws_bq1',category:'drip',group:'واشر بست ابتدایی بهاران قطره',size:'سایز ۱۲ شفاف (کد V505)',carton:10000,price:21000},
+            {id:'ws_bq2',category:'drip',group:'واشر بست ابتدایی بهاران قطره',size:'سایز ۱۲ مشکی (کد V501)',carton:10000,price:19000},
+            {id:'ws_bq3',category:'drip',group:'واشر بست ابتدایی بهاران قطره',size:'سایز ۱۶ شفاف (کد V506)',carton:5000,price:43000},
+            {id:'ws_bq4',category:'drip',group:'واشر بست ابتدایی بهاران قطره',size:'سایز ۱۶ مشکی (کد V502)',carton:5000,price:35000},
+            {id:'sp_bq1',category:'drip',group:'سه شاخه ۱۶ بهاران قطره',size:'۱۶ به بست ابتدایی ۵/۸ (کد SH 140)',carton:700,price:83500},
+            {id:'sp_bq2',category:'drip',group:'سه شاخه ۱۶ بهاران قطره',size:'۱۶ به ۱/۲ (کد SH 141)',carton:700,price:83500},
+            {id:'sp_bq6',category:'drip',group:'دو شاخه ۱۶ بهاران قطره',size:'۱۶ به بست ابتدایی ۵/۸ (کد SH 100)',carton:700,price:78000},
+            {id:'sp_bq7',category:'drip',group:'دو شاخه ۱۶ بهاران قطره',size:'۱۶ به ۱/۲ (کد SH 101)',carton:700,price:78000},
+            {id:'dr_bq84',category:'drip',group:'دریپرهای دبی ثابت بهاران قطره',size:'دریپر روی خط p.c خودشورینده ۴ لیتر',carton:4000,price:62000},
+            {id:'dr_bq85',category:'drip',group:'دریپرهای دبی ثابت بهاران قطره',size:'دریپر روی خط p.c خودشورینده ۸ لیتر',carton:4000,price:62000},
+            {id:'dr_bq91',category:'drip',group:'دریپرهای روی خط تنظیمی بهاران قطره',size:'دریپر زیتونی بهاره ۸ نازله کوچک (مشکی)',carton:10000,price:25000},
+            
+            // --- قطعات دنده‌ای، تفلون و مغزی‌های بهاران قطره ---
+            {id:'th_bq19',category:'threaded',group:'مغزی پلیمری رزوه‌ای سفید بهاران قطره',size:'سایز 1/2 inch (کد MS901)',carton:2000,price:123500},
+            {id:'th_bq20',category:'threaded',group:'مغزی پلیمری رزوه‌ای سفید بهاران قطره',size:'سایز 3/4 inch (کد MS902)',carton:1000,price:162500},
+            {id:'th_bq21',category:'threaded',group:'مغزی پلیمری رزوه‌ای سفید بهاران قطره',size:'سایز 1 inch (کد MS903)',carton:1000,price:199000},
+            {id:'th_bq22',category:'threaded',group:'مغزی پلیمری رزوه‌ای سفید بهاران قطره',size:'سایز 1 1/2 inch (کد MS905)',carton:400,price:410000},
+            {id:'th_bq23',category:'threaded',group:'مغزی پلیمری رزوه‌ای سفید بهاران قطره',size:'سایز 2 inch (کد MS906)',carton:200,price:550000},
+            {id:'th_bq30',category:'threaded',group:'مغزی پلیمری رزوه‌ای مشکی بهاران قطره',size:'سایز 1/2 inch (کد M 901)',carton:2000,price:101500},
+            {id:'th_bq31',category:'threaded',group:'مغزی پلیمری رزوه‌ای مشکی بهاران قطره',size:'سایز 3/4 inch (کد M 902)',carton:1000,price:135000},
+            {id:'th_bq32',category:'threaded',group:'مغزی پلیمری رزوه‌ای مشکی بهاران قطره',size:'سایز 1 inch (کد M 903)',carton:1000,price:166500},
+            
+            // --- ابزارآلات و نگهدارنده‌ها ---
+            {id:'tl_bq1',category:'tools',group:'پایه نگهدارنده و میخ تثبیت بهاران قطره',size:'پایه نگهدارنده اسپاگتی 6mm (کد P601)',carton:5000,price:39000},
+            {id:'tl_bq2',category:'tools',group:'پایه نگهدارنده و میخ تثبیت بهاران قطره',size:'میخ تثبیت لوله ۱۶ و ۲۰ (کد P602)',carton:1000,price:66000},
+            {id:'tl_bq5',category:'tools',group:'مته‌های دستی بهاران قطره',size:'مته دستی سایز ۱۶ (کد N 3)',carton:100,price:2550000},
+            {id:'tl_bq10',category:'tools',group:'مته‌های دریلی بهاران قطره',size:'مته دریلی سایز ۱۶ (کد N 8)',carton:100,price:2100000},
+            {id:'tl_bq19',category:'tools',group:'پانچر و آچار بهاران قطره',size:'آچارپلی اتیلن دوکاره (کد N 16)',carton:30,price:2180000}
+        ];
+
+        let c = 'all', s = '', z = '', h = {};
+
+        function f(n){return n===0?'استعلام روز':new Intl.NumberFormat('fa-IR').format(n)+' ریال'}
+        function n(n){return new Intl.NumberFormat('fa-IR').format(n)}
+
+        function init(){
+            document.getElementById('print-serial-no').textContent="RS-"+Math.floor(10000+Math.random()*90000);
+            document.getElementById('print-invoice-date').textContent="۲۵ خرداد ۱۴۰۵";
+            r();u();
+        }
+
+        function updateBuyerName(){
+            let i=document.getElementById('buyer-name-input').value.trim();
+            document.getElementById('print-buyer-name').textContent=i!==""?i:"همکار ارجمند / خریدار محترم";
+        }
+
+        function setCategory(cat){
+            c=cat;
+            document.querySelectorAll('.cat-tab').forEach(t=>{
+                t.classList.remove('bg-rahab-600','text-white','shadow-sm');
+                t.classList.add('bg-slate-100','text-slate-600');
+            });
+            let a=document.getElementById(`tab-${cat}`);
+            if(a){
+                a.classList.remove('bg-slate-100','text-slate-600');
+                a.classList.add('bg-rahab-600','text-white','shadow-sm');
+            }
+            r();
+        }
+
+        function filterProducts(){
+            s=document.getElementById('search-input').value.toLowerCase();
+            z=document.getElementById('size-filter').value;
+            r();
+        }
+
+        function getCategoryIconSVG(category) {
+            let svgContent = "";
+            if (category === 'valves') {
+                svgContent = `<path d="M15 50 h20 M65 50 h15 M35 40 h30 v20 h-30 z M50 20 v20 M40 20 h20" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`;
+            } else if (category === 'pipes') {
+                svgContent = `<circle cx="50" cy="50" r="30" stroke="currentColor" stroke-width="5" fill="none"/><circle cx="50" cy="50" r="18" stroke="currentColor" stroke-width="4" fill="none"/><circle cx="50" cy="50" r="8" stroke="currentColor" stroke-width="3" fill="none"/>`;
+            } else if (category === 'compression' || category === 'threaded') {
+                svgContent = `<path d="M30 25 l20 -10 l20 10 v30 l-20 10 l-20 -10 z" stroke="currentColor" stroke-width="5" fill="none"/><circle cx="50" cy="50" r="12" stroke="currentColor" stroke-width="4" fill="none"/>`;
+            } else if (category === 'saddles') {
+                svgContent = `<path d="M20 50 c0 -20, 60 -20, 60 0 v15 c0 10, -60 10, -60 0 z M15 50 h10 M75 50 h10" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+            } else if (category === 'drip') {
+                svgContent = `<path d="M50 20 C50 20, 75 45, 75 60 A25 25 0 0 1 25 60 C25 45, 50 20, 50 20 Z" stroke="currentColor" stroke-width="5" fill="none" stroke-linejoin="round"/>`;
+            } else {
+                svgContent = `<path d="M25 75 L45 55 M40 35 L45 30 A15 15 0 0 1 65 50 L60 55" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="70" cy="30" r="8" stroke="currentColor" stroke-width="5" fill="none"/>`;
+            }
+            return `<svg viewBox="0 0 100 100" class="w-7 h-7 text-rahab-600 fill-none">${svgContent}</svg>`;
+        }
+
+        function r(){
+            let o=document.getElementById('products-container');
+            o.innerHTML='';
+            let fList=d.filter(p=>{
+                let mC=c==='all'||p.category===c;
+                let mS=z==='';
+                if(z!==''){
+                    mS=p.size.includes(z)||
+                       (z==='12'&&(p.size.includes('12')||p.size.includes('3/8')))||
+                       (z==='16'&&(p.size.includes('16')||p.size.includes('5/8')))||
+                       (z==='20'&&(p.size.includes('20')||p.size.includes('1/2')))||
+                       (z==='25'&&(p.size.includes('25')||p.size.includes('3/4')))||
+                       (z==='32'&&(p.size.includes('32')||p.size.includes('1"')))||
+                       (z==='40'&&(p.size.includes('40')||p.size.includes('1 1/4')))||
+                       (z==='50'&&(p.size.includes('50')||p.size.includes('1 1/2')))||
+                       (z==='63'&&(p.size.includes('63')||p.size.includes('2"')))||
+                       (z==='75'&&(p.size.includes('75')||p.size.includes('2 1/2')))||
+                       (z==='90'&&(p.size.includes('90')||p.size.includes('3"')))||
+                       (z==='110'&&(p.size.includes('110')||p.size.includes('4"')))||
+                       (z==='125'&&(p.size.includes('125')||p.size.includes('5"')))||
+                       (z==='140'&&(p.size.includes('140')||p.size.includes('5 1/2')))||
+                       (z==='150'&&(p.size.includes('150')||p.size.includes('6"')))||
+                       (z==='160'&&(p.size.includes('160')||p.size.includes('6 1/2')))||
+                       (z==='200'&&(p.size.includes('200')||p.size.includes('8"')))||
+                       (z==='250'&&(p.size.includes('250')||p.size.includes('10"')));
+                }
+                let mSr=p.group.toLowerCase().includes(s)||p.size.toLowerCase().includes(s);
+                return mC&&mS&&mSr;
+            });
+
+            if(fList.length===0){
+                o.innerHTML='<p class="text-center text-slate-400 py-8 text-xs font-semibold">کالایی یافت نشد.</p>';
+                return;
+            }
+
+            let g={};
+            fList.forEach(p=>{if(!g[p.group])g[p.group]=[];g[p.group].push(p)});
+
+            for(let[gName,items]of Object.entries(g)){
+                let card=document.createElement('div');
+                card.className='bg-white rounded-2xl shadow-md border border-slate-200/80 overflow-hidden text-sm';
+                let rows='';
+                items.forEach(item=>{
+                    let qty=h[item.id]||0;
+                    
+                    rows+=`
+                        <tr class="border-b border-slate-100 hover:bg-slate-50/70 transition-colors">
+                            <td class="px-3 py-3 w-14 text-center align-middle">
+                                <div class="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 mx-auto shadow-sm">
+                                    ${getCategoryIconSVG(item.category)}
+                                </div>
+                            </td>
+                            <td class="px-3 py-3 font-bold text-slate-900 text-sm sm:text-base align-middle">${item.size}</td>
+                            <td class="px-3 py-3 text-slate-500 font-semibold align-middle">${n(item.carton)} عدد</td>
+                            <td class="px-3 py-3 font-extrabold text-rahab-800 text-sm sm:text-base align-middle">${f(item.price)}</td>
+                            <td class="px-3 py-3 w-20 sm:w-28 text-center align-middle">
+                                <div class="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2">
+                                    <button onclick="changeQty('${item.id}',1)" class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-rahab-100 hover:bg-rahab-200 text-rahab-800 font-bold transition-colors flex items-center justify-center text-xl">+</button>
+                                    <input type="number" value="${qty}" min="0" onchange="updateQty('${item.id}',this.value)" class="w-10 h-8 sm:w-12 sm:h-9 text-center bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:outline-none focus:ring-2 focus:ring-rahab-500">
+                                    <button onclick="changeQty('${item.id}',-1)" class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold transition-colors flex items-center justify-center text-xl">-</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+                card.innerHTML=`<div class="bg-gradient-to-l from-rahab-50 to-white px-5 py-3 border-b border-slate-100 font-extrabold text-rahab-900 text-sm sm:text-base">${gName}</div><table class="w-full text-right border-collapse"><tbody>${rows}</tbody></table>`;
+                o.appendChild(card);
+            }
+        }
+
+        function changeQty(id,ch){
+            let curr=h[id]||0;
+            let next=Math.max(0,curr+ch);
+            if(next===0)delete h[id];else h[id]=next;
+            u();r();
+        }
+
+        function updateQty(id,val){
+            let next=Math.max(0,parseInt(val)||0);
+            if(next===0)delete h[id];else h[id]=next;
+            u();r();
+        }
+
+        function clearCart(){h={};document.getElementById('discount-input').value=0;u();r();}
+
+        function u(){
+            let cContainer=document.getElementById('cart-items');
+            let pBody=document.getElementById('print-invoice-table-body');
+            cContainer.innerHTML='';
+            pBody.innerHTML='';
+
+            let rTot=0,tItems=0,cHtml='',pHtml='',idx=1;
+
+            for(let[id,qty]of Object.entries(h)){
+                let item=d.find(p=>p.id===id);
+                if(!item)continue;
+                let sub=item.price*qty;
+                rTot+=sub;
+                tItems+=qty;
+
+                cHtml+=`
+                    <div class="bg-slate-50 p-3 rounded-xl flex justify-between items-center border border-slate-100 shadow-sm">
+                        <div>
+                            <p class="font-bold text-slate-800">${item.group}</p>
+                            <p class="text-slate-400 font-medium">سایز: ${item.size} | تعداد: ${qty}</p>
+                        </div>
+                        <p class="font-bold text-rahab-700">${f(sub)}</p>
+                    </div>
+                `;
+
+                pHtml+=`
+                    <tr class="border-b border-slate-300">
+                        <td class="px-2 py-1.5 text-center">${idx++}</td>
+                        <td class="px-2 py-1.5 font-bold">${item.group} - سایز ${item.size}</td>
+                        <td class="px-2 py-1.5 text-center font-bold">${n(qty)}</td>
+                        <td class="px-2 py-1.5 text-left">${f(item.price)}</td>
+                        <td class="px-2 py-1.5 text-left font-bold">${f(sub)}</td>
+                    </tr>
+                `;
+            }
+
+            if(tItems===0){
+                cContainer.innerHTML='<p class="text-center text-slate-400 py-6">سبد استعلام خالی است.</p>';
+                pBody.innerHTML='<tr><td colspan="5" class="text-center py-6 text-slate-400 font-bold">هیچ کالایی انتخاب نشده است.</td></tr>';
+            } else {
+                cContainer.innerHTML=cHtml;
+                pBody.innerHTML=pHtml;
+            }
+
+            let dPct=parseInt(document.getElementById('discount-input').value)||0;
+            let dAmt=rTot*(dPct/100);
+            let nTot=rTot-dAmt;
+
+            document.getElementById('cart-count').textContent=`${tItems} آیتم`;
+            document.getElementById('discount-display').textContent=`${dPct}٪`;
+            document.getElementById('raw-total').textContent=f(rTot);
+            document.getElementById('discount-amount').textContent=f(dAmt);
+            document.getElementById('net-total').textContent=f(nTot);
+
+            document.getElementById('print-discount-rate').textContent=dPct;
+            document.getElementById('print-raw-total').textContent=f(rTot);
+            document.getElementById('print-discount-amount').textContent=f(dAmt);
+            document.getElementById('print-net-total').textContent=f(nTot);
+        }
+
+        function buildPrintCatalog(){
+            let o=document.getElementById('print-all-products-container');
+            o.innerHTML='';
+            const cTitles={'pipes':'لوله‌ها، شلنگ‌ها و سرشلنگی‌های توزیع آب','compression':'اتصالات پیچی پلیمری و دنده‌ای','saddles':'انواع کمربندهای انشعاب و بست‌های هندلی','valves':'شیرآلات بین‌خط، سوپاپ‌های چاه و تجهیزات کنترل جریان','drip':'اتصالات قطره‌ای، نوارهای تیپ و دریپرهای دبی ثابت','threaded':'قطعات رزوه‌ای سفید و مشکی پلیمری','tools':'ابزارآلات نصب، مته‌ها، پانچرها و دریچه‌های بازدید'};
+
+            for(let[catKey,catTitle]of Object.entries(cTitles)){
+                let catProducts=d.filter(p=>p.category===catKey);
+                if(catProducts.length===0)continue;
+                let g={};
+                catProducts.forEach(p=>{if(!g[p.group])g[p.group]=[];g[p.group].push(p)});
+
+                let sec=document.createElement('div');
+                sec.className='space-y-4 page-break-avoid';
+                let gTables='';
+
+                for(let[gName,items]of Object.entries(g)){
+                    let rows='',idx=1;
+                    items.forEach(item=>{
+                        rows+=`
+                            <tr class="border-b border-slate-300">
+                                <td class="px-2 py-1 text-center font-bold text-slate-700">${idx++}</td>
+                                <td class="px-1 py-1 w-8 text-center">
+                                    <div class="w-6 h-6 flex items-center justify-center border bg-slate-50 rounded mx-auto">
+                                        ${getCategoryIconSVG(item.category)}
+                                    </div>
+                                </td>
+                                <td class="px-2 py-1 font-mono text-[9px] text-slate-500">${item.id}</td>
+                                <td class="px-2 py-1 font-bold text-slate-900">${item.size}</td>
+                                <td class="px-2 py-1 text-center">${item.carton?n(item.carton)+' عدد':'بسته/کیسه'}</td>
+                                <td class="px-2 py-1 text-left font-black text-slate-950">${f(item.price)}</td>
+                            </tr>
+                        `;
+                    });
+                    gTables+=`
+                        <div class="border border-slate-400 rounded-lg overflow-hidden bg-white/95 my-3">
+                            <div class="bg-slate-100/90 px-3 py-1.5 font-bold text-slate-900 border-b border-slate-300 flex justify-between">
+                                <span>${gName}</span><span class="text-[9px] text-slate-400 font-medium">اتصالات استاندارد تحت فشار</span>
+                            </div>
+                            <table class="w-full text-right text-[10px]">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-700 border-b border-slate-300 font-bold text-[9px]">
+                                        <th class="px-2 py-1 text-center w-8">ردیف</th><th class="px-2 py-1">کد ردیف</th><th class="px-2 py-1">سایز / مشخصات</th><th class="px-2 py-1 text-center">بسته‌بندی</th><th class="px-2 py-1 text-left">قیمت فروش مصوب مرجع</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${rows}</tbody>
+                            </table>
+                        </div>
+                    `;
+                }
+                sec.innerHTML=`<div class="border-r-4 border-teal-700 pr-3 my-2"><h3 class="text-xs font-black tracking-wide text-teal-900 uppercase">${catTitle}</h3></div><div class="space-y-3">${gTables}</div>`;
+                o.appendChild(sec);
+            }
+        }
+
+        function handleHeaderLogoError(img){
+            let c=document.getElementById('header-logo-container');
+            if(c){c.innerHTML=`<svg viewBox="0 0 100 100" class="w-full h-full"><path d="M25 15 H65 C80 15, 88 25, 88 38 C88 50, 78 58, 65 60 L85 85 H60 L45 65 H35 V85 H25 V15 Z" fill="url(#teal-fallback)" /><path d="M48 25 C48 35, 38 45, 35 48 C30 52, 28 58, 35 60 C42 62, 52 50, 58 45 C65 40, 60 25, 48 25 Z" fill="#fff" /><defs><linearGradient id="teal-fallback" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2dd4bf" /><stop offset="100%" stop-color="#0f766e" /></linearGradient></defs></svg>`}
+        }
+        function handlePrintLogoError(img){
+            let c=document.getElementById('print-logo-container');
+            if(c){c.innerHTML=`<svg viewBox="0 0 100 100" class="w-full h-full fill-current text-slate-800"><path d="M25 15 H65 C80 15, 88 25, 88 38 C88 50, 78 58, 65 60 L85 85 H60 L45 65 H35 V85 H25 V15 Z" /><path d="M48 25 C48 35, 38 45, 35 48 C30 52, 28 58, 35 60 C42 62, 52 50, 58 45 C65 40, 60 25, 48 25 Z" fill="#fff" /></svg>`}
+        }
+        function handleCatalogHeaderLogoError(img){
+            let c=document.getElementById('catalog-header-logo-container');
+            if(c){c.innerHTML=`<svg viewBox="0 0 100 100" class="w-full h-full fill-current text-slate-800"><path d="M25 15 H65 C80 15, 88 25, 88 38 C88 50, 78 58, 65 60 L85 85 H60 L45 65 H35 V85 H25 V15 Z" /><path d="M48 25 C48 35, 38 45, 35 48 C30 52, 28 58, 35 60 C42 62, 52 50, 58 45 C65 40, 60 25, 48 25 Z" fill="#fff" /></svg>`}
+        }
+        function handleWatermarkError(img){
+            let c=document.getElementById('invoice-watermark-container');
+            if(c){c.innerHTML=`<svg viewBox="0 0 100 100" class="w-[420px] h-[420px] fill-current text-slate-300 opacity-20 pointer-events-none"><path d="M25 15 H65 C80 15, 88 25, 88 38 C88 50, 78 58, 65 60 L85 85 H60 L45 65 H35 V85 H25 V15 Z" /><path d="M48 25 C48 35, 38 45, 35 48 C30 52, 28 58, 35 60 C42 62, 52 50, 58 45 C65 40, 60 25, 48 25 Z" fill="#fff" /></svg>`}
+        }
+        function handleCatalogWatermarkError(img){
+            let c=document.getElementById('catalog-watermark-container');
+            if(c){c.innerHTML=`<svg viewBox="0 0 100 100" class="w-[450px] h-[450px] fill-current text-slate-300 opacity-20 pointer-events-none fixed top-[30%]"><path d="M25 15 H65 C80 15, 88 25, 88 38 C88 50, 78 58, 65 60 L85 85 H60 L45 65 H35 V85 H25 V15 Z" /><path d="M48 25 C48 35, 38 45, 35 48 C30 52, 28 58, 35 60 C42 62, 52 50, 58 45 C65 40, 60 25, 48 25 Z" fill="#fff" /></svg>`}
+        }
+
+        function triggerPrintAll(){
+            document.body.classList.remove('print-invoice');
+            document.body.classList.add('print-catalog');
+            buildPrintCatalog();
+            setTimeout(()=>{window.print()},200);
+        }
+
+        function triggerPrintInvoice(){
+            if(Object.keys(h).length===0){
+                alert("لطفاً ابتدا کالاها را به لیست استعلام اضافه کنید.");
+                return;
+            }
+            document.body.classList.remove('print-catalog');
+            document.body.classList.add('print-invoice');
+            setTimeout(()=>{window.print()},200);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
